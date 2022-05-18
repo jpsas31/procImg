@@ -2,6 +2,7 @@ from cmath import pi
 from procImgRGB import greyScaleYCbCr, toYCbCr, leerImg, showSideBySide
 import math
 import numpy
+from thresholding import applyThreshold, applyBinaryThreshold
 
 import cv2 as cv
 
@@ -85,12 +86,7 @@ def edgeDetectPrewitt(img,meanVal):
             imgF[i][j]=round(math.sqrt(applyMatrix(img,matrixX,i,j) **2 + applyMatrix(img,matrixY,i,j)**2))
 
     return imgF
-def applyThreshhold(img,threshold):
-    imgF=numpy.zeros(numpy.shape(img))
-    for i in range(numpy.shape(img)[0]):
-        for j in range(numpy.shape(img)[1]):
-            imgF[i][j]= 0 if img[i][j]<threshold else 255
-    return imgF
+
 
 # print(calculateValuesGaussian(0.2))
 # Image.fromarray( edgeDetectSobel(gaussianFilter( numpy.asarray( greyScaleYCbCr(toYCbCr(leerImg('400px-Bikesgray.jpg')))),1))).show()
@@ -104,4 +100,5 @@ def applyThreshhold(img,threshold):
 # showSideBySide( edgeDetectSobel( numpy.asarray( greyScaleYCbCr(toYCbCr(leerImg('400px-Bikesgray.jpg'))))),
 # edgeDetectCanny(numpy.asarray( greyScaleYCbCr(toYCbCr(leerImg('400px-Bikesgray.jpg')))),1,100,200))
 
-Image.fromarray(applyThreshhold( edgeDetectSobel( numpy.asarray( greyScaleYCbCr(toYCbCr(leerImg('400px-Bikesgray.jpg'))))),100)).show()
+Image.fromarray(applyBinaryThreshold( edgeDetectSobel( numpy.asarray( greyScaleYCbCr(toYCbCr(leerImg('400px-Bikesgray.jpg'))))),100)).show()
+# Image.fromarray(applyThreshold( edgeDetectSobel( numpy.asarray( greyScaleYCbCr(toYCbCr(leerImg('400px-Bikesgray.jpg'))))))).show()
