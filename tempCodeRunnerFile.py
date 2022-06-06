@@ -1,1 +1,0 @@
- greyScaleYCbCr(toYCbCr(leerImg('gaussian.jpg')))),64)).show()
