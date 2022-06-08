@@ -129,4 +129,4 @@ def rayleighFilter(img,variance):
 
 # showSideBySide( rayleighFilter(numpy.asarray( greyScaleYCbCr(toYCbCr(leerImg('300px-Kodim17_noisy.jpg')))),1),
 # Image.fromarray( gaussianFilter(numpy.asarray( greyScaleYCbCr(toYCbCr(leerImg('300px-Kodim17_noisy.jpg')))),1)))
-Image.fromarray( gaussianFilter(numpy.asarray( greyScaleYCbCr(toYCbCr(leerImg('gaussian.jpg')))),64)).show()
+# Image.fromarray( gaussianFilter(numpy.asarray( greyScaleYCbCr(toYCbCr(leerImg('gaussian.jpg')))),64)).show()

@@ -24,5 +24,5 @@ def zScoreSlices(img):
         imgStand[:,:,i]=zScoreSlice(img[:,:,i])
     return imgStand
 
-            
+
         

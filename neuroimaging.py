@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from slideShow import showSlicesKey
 from zScore import zScoreSlice, zScoreSlices
-from frangi import frangi
+from frangi import frangi, frangiPropio
 
 def getPixelDataDicom(fileName):
     ds = dcmread(fileName)
@@ -55,10 +55,12 @@ def showSideBySide(img1,img2):
     plt.show()
     
 # img=ApplyRobex("minimal.nii")
-img= getPixelDataNifti("./examples/LR_SI_Case_2_Rep_1_Res_(1_1_1).nii")
+img= getPixelDataNifti("./examples/LR_SI_Case_30_Rep_1_Res_(1_1_1).nii")
+# print(img.shape)
+imgFiltered= frangiPropio(img,scale_range=(0.4,0.8,0.2))
+frangiSKi=frangi(img,sigmas=np.arange(0.4,0.8,0.2),gamma=10)
+showSlicesKey(imgFiltered,frangiSKi,img,0,grayVal=False)
 # showSlicesKey(frangi(img,sigmas=(1,10),gamma=15),0,grayVal=False)
-showSlicesKey(img,0,grayVal=False)
+# showSlicesKey(img,0,grayVal=True,blackRidges=True)
 # showSideBySide(img[94,:,:],frangi(img[94,:,:],sigmas=(0.01,0.1),gamma=1))
 
-
-#

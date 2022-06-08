@@ -100,5 +100,5 @@ def edgeDetectPrewitt(img,meanVal):
 # showSideBySide( edgeDetectSobel( numpy.asarray( greyScaleYCbCr(toYCbCr(leerImg('400px-Bikesgray.jpg'))))),
 # edgeDetectCanny(numpy.asarray( greyScaleYCbCr(toYCbCr(leerImg('400px-Bikesgray.jpg')))),1,100,200))
 
-Image.fromarray(applyBinaryThreshold( edgeDetectSobel( numpy.asarray( greyScaleYCbCr(toYCbCr(leerImg('400px-Bikesgray.jpg'))))),100)).show()
+# Image.fromarray(applyBinaryThreshold( edgeDetectSobel( numpy.asarray( greyScaleYCbCr(toYCbCr(leerImg('400px-Bikesgray.jpg'))))),100)).show()
 # Image.fromarray(applyThreshold( edgeDetectSobel( numpy.asarray( greyScaleYCbCr(toYCbCr(leerImg('400px-Bikesgray.jpg'))))))).show()
