@@ -4,8 +4,6 @@ import skimage.filters as sk
 import skimage.filters.ridges as skR
 import skimage.feature as skF
 import numpy as np
-from frangi3d import hessian
-from frangi3d import frangi as fr
 
 def frangi(img,sigmas=range(1, 10, 2), alpha=0.5, beta=0.5, gamma=15, black_ridges=True):
     
@@ -39,29 +37,26 @@ def vesselness(eigenValues,alpha,beta,c):
     ra =  np.divide(np.abs(eigen2), np.abs(eigen3))
     rb = np.divide(np.abs(eigen1), np.sqrt(np.abs(np.multiply(eigen2, eigen3))))
     s = np.sqrt(np.square(eigen1) + np.square(eigen2) + np.square(eigen3))
-  
-    return plate_factor(ra,alpha) * blob_factor(rb,beta) * background_factor(s,c) 
+    img=plate_factor(ra,alpha) * blob_factor(rb,beta) * background_factor(s,c) 
+    img[eigen2 < 0] = 0
+    img[eigen3 < 0] = 0
+    img[np.isnan(img)] = 0
+    return  img
     
 def frangiPropio(img, scale_range=(0,1,1), alpha=0.5, beta=0.5):
     
     sigmas=np.arange(*scale_range)
     imgFiltered=np.zeros(sigmas.shape+img.shape)
     for sigmaPos,sigma in enumerate(sigmas):
-        
-        hessianMatrix=skF.hessian_matrix(img,sigma=sigma)
-        
+        hessianMatrix=skF.hessian_matrix(img,sigma=sigma) 
         c= np.linalg.norm(hessianMatrix)
-        # c=1
         eigen= np.sort(np.absolute(skF.hessian_matrix_eigvals(hessianMatrix)),axis=0)
         #hipo oscuro
         #hiper claro
         #t2
         imgFiltered[sigmaPos]=vesselness(eigen,alpha,beta,c)
-        # print(imgFiltered[sigmaPos].shape)
-        # for i in  range(img.shape[0]):
-        #     for j in  range(img.shape[0]):
-        #         for k in  range(img.shape[0]):
-        #             imgFiltered[sigmaPos,i,j,k]= vesselness(sorted(eigen[:,i,j,k]),alpha,beta,c)
+       
+  
     return np.max(imgFiltered, axis=0)
 
 

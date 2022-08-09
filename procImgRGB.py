@@ -31,7 +31,7 @@ def greyScaleYCbCr(imgYCbCr):
 
 def showSideBySide(img1,img2):
     Image.fromarray(np.hstack((np.array(img1),np.array(img2)))).show()
-# greyScaleYCbCr(toYCbCr(leerImg('1InNDn3NRlzAQOGsR6zfuRwiJ_5gqY6-5_lqcWxiwjY.webp'))).show()
+greyScaleYCbCr(toYCbCr(leerImg('1InNDn3NRlzAQOGsR6zfuRwiJ_5gqY6-5_lqcWxiwjY.webp'))).show()
 
 # toLAB(leerImg('1InNDn3NRlzAQOGsR6zfuRwiJ_5gqY6-5_lqcWxiwjY.webp')).split()[0].show()
 # toHSV(leerImg('1InNDn3NRlzAQOGsR6zfuRwiJ_5gqY6-5_lqcWxiwjY.webp')).split()[2].show()

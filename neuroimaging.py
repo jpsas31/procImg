@@ -8,9 +8,10 @@ from robex import ApplyRobex
 from pydicom import dcmread
 import numpy as np
 import matplotlib.pyplot as plt
-from slideShow import showSlicesKey
+from slideShow import SlideShow
 from zScore import zScoreSlice, zScoreSlices
 from frangi import frangi, frangiPropio
+import cv2
 
 def getPixelDataDicom(fileName):
     ds = dcmread(fileName)
@@ -53,13 +54,37 @@ def showSideBySide(img1,img2):
     plt.axis('off')
     plt.imshow(img2)
     plt.show()
+
+def applyMask(img,mask):
+    mask= getPixelDataNifti(mask)
+    # return cv2.bitwise_and(img,mask)
+    return mask*img
     
-# img=ApplyRobex("minimal.nii")
-img= getPixelDataNifti("./examples/LR_SI_Case_30_Rep_1_Res_(1_1_1).nii")
-# print(img.shape)
-imgFiltered= frangiPropio(img,scale_range=(0.4,0.8,0.2))
-frangiSKi=frangi(img,sigmas=np.arange(0.4,0.8,0.2),gamma=10)
-showSlicesKey(imgFiltered,frangiSKi,img,0,grayVal=False)
+file1="./examples/LR_SI_Case_30_Rep_1_Res_(1_1_1).nii"
+# file='./mriPrueba/sub-01_ses-01_T1w.nii'
+file='./mrit2/BRAINIX_NIFTI_FLAIR.nii'
+imgSinStand=ApplyRobex(file1)
+imgSinStand2=ApplyRobex(file)
+
+# imgSinStand=getPixelDataNifti(file1)
+imgStand, imgStand2 = zScoreSlices([imgSinStand, imgSinStand2])
+imgFilteredStand= frangiPropio(imgStand,scale_range=(0.4,0.8,0.2))
+imgFilteredStand2 = frangiPropio(imgStand2,scale_range=(0.4,0.8,0.2))
+# imgOriginal= ApplyRobex(getPixelDataNifti(file))
+
+# imgFilteredMasked= applyMask(frangiPropio(imgOriginal,scale_range=(0a.4,0.8,0.2)),'./mask/LR_ROI_mask_Res_(1_1_1).nii')
+
+imgArr=[[imgSinStand, 'Imagen sin estandarizacion'],[imgStand, 'Imagen estandarizada'], 
+        [imgSinStand2, 'Imagen sin estandarizacion'],[imgStand2, 'Imagen estandarizada'], 
+        [imgFilteredStand, 'Filtro de frangi en imagen estandarizada'],[imgFilteredStand2, 'Filtro de frangi en imagen estandarizada']]
+# maskedImg=applyMask(imgStand,'./mask/LR_ROI_mask_Res_(1_1_1).nii')
+# imgFilteredMasked= applyMask(imgFilteredStand,'./mask/LR_ROI_mask_Res_(1_1_1).nii')
+# imgArr.append([maskedImg,'Imagen con mascara'])
+# imgArr.append([imgFilteredMasked,'Imagen con mascara y frangi'])
+
+# frangi(img,sigmas=np.arange(0.4,0.8,0.2),gamma=10)
+# showSlicesKey(imgFiltered,maskedImg,imgOriginal, imgFilteredMasked,2,grayVal=False)
+SlideShow(dimension=2,imgs=imgArr,grayVal=False).showSlicesKey()
 # showSlicesKey(frangi(img,sigmas=(1,10),gamma=15),0,grayVal=False)
 # showSlicesKey(img,0,grayVal=True,blackRidges=True)
 # showSideBySide(img[94,:,:],frangi(img[94,:,:],sigmas=(0.01,0.1),gamma=1))
