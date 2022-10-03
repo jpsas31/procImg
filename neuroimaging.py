@@ -61,7 +61,7 @@ def applyMask(img,mask):
     return mask*img
     
 file1="./examples/LR_SI_Case_30_Rep_1_Res_(1_1_1).nii"
-# file='./mriPrueba/sub-01_ses-01_T1w.nii'
+# file1='./mriPrueba/sub-01_ses-01_T1w.nii'
 file='./mrit2/BRAINIX_NIFTI_FLAIR.nii'
 imgSinStand=ApplyRobex(file1)
 imgSinStand2=ApplyRobex(file)
@@ -72,11 +72,12 @@ imgFilteredStand= frangiPropio(imgStand,scale_range=(0.4,0.8,0.2))
 imgFilteredStand2 = frangiPropio(imgStand2,scale_range=(0.4,0.8,0.2))
 # imgOriginal= ApplyRobex(getPixelDataNifti(file))
 
-# imgFilteredMasked= applyMask(frangiPropio(imgOriginal,scale_range=(0a.4,0.8,0.2)),'./mask/LR_ROI_mask_Res_(1_1_1).nii')
+imgFilteredMasked= applyMask(imgFilteredStand,'./mask/LR_ROI_mask_Res_(1_1_1).nii')
 
 imgArr=[[imgSinStand, 'Imagen sin estandarizacion'],[imgStand, 'Imagen estandarizada'], 
         [imgSinStand2, 'Imagen sin estandarizacion'],[imgStand2, 'Imagen estandarizada'], 
-        [imgFilteredStand, 'Filtro de frangi en imagen estandarizada'],[imgFilteredStand2, 'Filtro de frangi en imagen estandarizada']]
+        [imgFilteredStand, 'Filtro de frangi en imagen estandarizada'],[imgFilteredStand2, 'Filtro de frangi en imagen estandarizada'],
+        [imgFilteredMasked, 'Imagen artificial con mascara']]
 # maskedImg=applyMask(imgStand,'./mask/LR_ROI_mask_Res_(1_1_1).nii')
 # imgFilteredMasked= applyMask(imgFilteredStand,'./mask/LR_ROI_mask_Res_(1_1_1).nii')
 # imgArr.append([maskedImg,'Imagen con mascara'])
@@ -84,7 +85,7 @@ imgArr=[[imgSinStand, 'Imagen sin estandarizacion'],[imgStand, 'Imagen estandari
 
 # frangi(img,sigmas=np.arange(0.4,0.8,0.2),gamma=10)
 # showSlicesKey(imgFiltered,maskedImg,imgOriginal, imgFilteredMasked,2,grayVal=False)
-SlideShow(dimension=2,imgs=imgArr,grayVal=False).showSlicesKey()
+SlideShow(dimension=2,imgs=imgArr,grayVal=True).showSlicesKey()
 # showSlicesKey(frangi(img,sigmas=(1,10),gamma=15),0,grayVal=False)
 # showSlicesKey(img,0,grayVal=True,blackRidges=True)
 # showSideBySide(img[94,:,:],frangi(img[94,:,:],sigmas=(0.01,0.1),gamma=1))
